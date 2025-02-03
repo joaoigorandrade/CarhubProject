@@ -1,0 +1,114 @@
+[
+    {
+        "id": 1,
+        "name": "Oficina Dois Irmãos",
+        "image": "https://img.freepik.com/premium-vector/premium-car-automotive-logo-design-earth-shohag_852644-722.jpg?w=1380",
+        "positives": 120,
+        "negatives": 8,
+        "comments": 35,
+        "address": "Rua Principal, 123, Cidade Alfa",
+        "distance": 4.5,
+        "price": 4,
+        "services": [
+            "Troca de Óleo",
+            "Rodízio de Pneus",
+            "Inspeção de Freios"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Oficina do Paulo",
+        "image": "https://img.freepik.com/free-vector/automotive-industry-neon-sign_24908-57001.jpg?t=st=1737084436~exp=1737088036~hmac=1400b1bb19680ada3ec53cd5eec8b601f25d840c61c4638fdbf68964b683d3ca&w=1380",
+        "positives": 180,
+        "negatives": 12,
+        "comments": 50,
+        "address": "Avenida Central, 456, Cidade Beta",
+        "distance": 3.0,
+        "price": 3,
+        "services": [
+            "Alinhamento de Rodas",
+            "Substituição de Bateria",
+            "Diagnóstico do Motor"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Auto Japa",
+        "image": "https://img.freepik.com/free-vector/flat-design-car-service-logo_23-2149720693.jpg?t=st=1737084436~exp=1737088036~hmac=3fe7743ff6fce3687717258a8d8d7d30d485239eb3753a9caf734686af4ac8cc&w=1380",
+        "positives": 210,
+        "negatives": 4,
+        "comments": 65,
+        "address": "Estrada Velha, 789, Cidade Gama",
+        "distance": 2.3,
+        "price": 2,
+        "services": [
+            "Serviço de Ar Condicionado",
+            "Reparo de Transmissão",
+            "Troca de Fluido de Arrefecimento"
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Auto Center Alfa",
+        "image": "https://img.freepik.com/free-vector/gradient-car-service-logo-template_23-2149727270.jpg?t=st=1737084438~exp=1737088038~hmac=b669b1936ec07504a16bfcd9fd53b0622edb4094169fc2a5c9bf84bd0f750bc5&w=1380",
+        "positives": 300,
+        "negatives": 15,
+        "comments": 80,
+        "address": "Rua das Palmeiras, 1010, Cidade Delta",
+        "distance": 5.8,
+        "price": 3,
+        "services": [
+            "Troca de Óleo",
+            "Inspeção de Freios",
+            "Substituição de Bateria"
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Mecânica Beta",
+        "image": "https://img.freepik.com/free-vector/flat-design-car-service-logo-template_23-2149725999.jpg?t=st=1737084436~exp=1737088036~hmac=bd0b4b1f8238d346bb048c0402e05eafea20a3b626004c5160b7c869a0699ec0&w=1380",
+        "positives": 250,
+        "negatives": 10,
+        "comments": 70,
+        "address": "Avenida Rio Branco, 2020, Cidade Epsilon",
+        "distance": 4.2,
+        "price": 4,
+        "services": [
+            "Rodízio de Pneus",
+            "Alinhamento de Rodas",
+            "Diagnóstico do Motor"
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Reparadora Gamma",
+        "image": "https://img.freepik.com/free-vector/flat-design-tire-shop-template_23-2151165442.jpg?t=st=1737084436~exp=1737088036~hmac=30c2fd627c0e4f414c5e07268e987d3ebe89df636aae09522447813a0487e2a6&w=1380",
+        "positives": 180,
+        "negatives": 5,
+        "comments": 55,
+        "address": "Estrada Nova, 3030, Cidade Zeta",
+        "distance": 3.6,
+        "price": 2,
+        "services": [
+            "Reparo de Transmissão",
+            "Troca de Fluido de Arrefecimento",
+            "Serviço de Ar Condicionado"
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Auto Center Alfa",
+        "image": "https://img.freepik.com/free-vector/gradient-car-service-logo-template_23-2149741590.jpg?t=st=1737084438~exp=1737088038~hmac=d15f3a74fab057503cf9c8a321fdb7cb4fbcc45cae81ccb58956207dfb7e05f3&w=1380",
+        "positives": 300,
+        "negatives": 15,
+        "comments": 80,
+        "address": "Rua das Palmeiras, 1010, Cidade Delta",
+        "distance": 5.8,
+        "price": 3,
+        "services": [
+            "Troca de Óleo",
+            "Inspeção de Freios",
+            "Substituição de Bateria"
+        ]
+    }
+]

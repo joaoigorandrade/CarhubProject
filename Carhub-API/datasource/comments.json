@@ -1,0 +1,140 @@
+{
+    "1": [
+        {
+            "id": 101,
+            "text": "Excelente trabalho, fui muito bem atendido",
+            "author": "João Igor",
+            "date": "2025-01-10",
+            "rating": "positive"
+        },
+        {
+            "id": 102,
+            "text": "Quick and affordable, but the waiting area could be better.",
+            "author": "Jane Smith",
+            "date": "2025-01-09",
+            "rating": "positive"
+        },
+        {
+            "id": 103,
+            "text": "Serviço bom, mas demorou mais do que o esperado.",
+            "author": "Carlos Mendes",
+            "date": "2025-01-08",
+            "rating": "negative"
+        }
+    ],
+    "2": [
+        {
+            "id": 201,
+            "text": "Muito profissional, resolveram meu problema rapidamente.",
+            "author": "Mariana Souza",
+            "date": "2025-01-12",
+            "rating": "positive"
+        },
+        {
+            "id": 202,
+            "text": "Ótimo atendimento, recomendo para quem precisa de alinhamento de rodas.",
+            "author": "Roberto Silva",
+            "date": "2025-01-11",
+            "rating": "positive"
+        },
+        {
+            "id": 203,
+            "text": "Achei o preço um pouco alto, mas o serviço foi bom.",
+            "author": "Ana Paula",
+            "date": "2025-01-10",
+            "rating": "negative"
+        }
+    ],
+    "3": [
+        {
+            "id": 301,
+            "text": "Ótima experiência! Resolveram o problema do meu ar condicionado.",
+            "author": "Thiago Martins",
+            "date": "2025-01-13",
+            "rating": "positive"
+        },
+        {
+            "id": 302,
+            "text": "Muito rápido e eficiente, mas poderia ter mais opções de pagamento.",
+            "author": "Julia Ferreira",
+            "date": "2025-01-12",
+            "rating": "positive"
+        },
+        {
+            "id": 303,
+            "text": "Equipe técnica boa, mas senti falta de um atendimento mais personalizado.",
+            "author": "Pedro Lima",
+            "date": "2025-01-11",
+            "rating": "negative"
+        }
+    ],
+    "4": [
+        {
+            "id": 401,
+            "text": "Excelente serviço, superaram minhas expectativas.",
+            "author": "Fernanda Rocha",
+            "date": "2025-01-14",
+            "rating": "positive"
+        },
+        {
+            "id": 402,
+            "text": "Fui muito bem atendido, ambiente limpo e organizado.",
+            "author": "Ricardo Alves",
+            "date": "2025-01-13",
+            "rating": "positive"
+        },
+        {
+            "id": 403,
+            "text": "Gostei do serviço, mas achei que demoraram para começar o atendimento.",
+            "author": "Laura Nunes",
+            "date": "2025-01-12",
+            "rating": "negative"
+        }
+    ],
+    "5": [
+        {
+            "id": 501,
+            "text": "Ótimo lugar para alinhamento de rodas, equipe muito experiente.",
+            "author": "Rafael Teixeira",
+            "date": "2025-01-15",
+            "rating": "positive"
+        },
+        {
+            "id": 502,
+            "text": "Serviço bom e rápido, mas o preço poderia ser mais acessível.",
+            "author": "Cláudia Moura",
+            "date": "2025-01-14",
+            "rating": "negative"
+        },
+        {
+            "id": 503,
+            "text": "Muito atenciosos e prestativos. Recomendo!",
+            "author": "Gustavo Reis",
+            "date": "2025-01-13",
+            "rating": "positive"
+        }
+    ],
+    "6": [
+        {
+            "id": 601,
+            "text": "Recomendo para quem precisa de serviços de ar condicionado.",
+            "author": "Camila Duarte",
+            "date": "2025-01-16",
+            "rating": "positive"
+        },
+        {
+            "id": 602,
+            "text": "Equipe eficiente, mas poderiam melhorar a área de espera.",
+            "author": "Eduardo Pereira",
+            "date": "2025-01-15",
+            "rating": "negative"
+        },
+        {
+            "id": 603,
+            "text": "Atendimento excelente, serviço muito bem feito.",
+            "author": "Renata Carvalho",
+            "date": "2025-01-14",
+            "rating": "positive"
+        }
+    ]
+}
