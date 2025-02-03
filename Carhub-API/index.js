@@ -60,16 +60,16 @@ app.post('/workshops', (req, res) => {
     // Sort by orderedBy
     if (orderedBy) {
         switch (orderedBy) {
-            case 'Distance':
+            case 'Distancia':
                 filteredWorkshops.sort((a, b) => a.distance - b.distance);
                 break;
-            case 'Lower Price':
+            case 'Menor Preço':
                 filteredWorkshops.sort((a, b) => a.price - b.price);
                 break;
-            case 'Higher Price':
+            case 'Maior Preço':
                 filteredWorkshops.sort((a, b) => b.price - a.price);
                 break;
-            case 'Most Positives':
+            case 'Melhor Avaliado':
                 filteredWorkshops.sort((a, b) => b.positives - a.positives);
                 break;
             default:

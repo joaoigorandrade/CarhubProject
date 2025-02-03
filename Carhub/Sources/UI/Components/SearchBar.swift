@@ -12,7 +12,7 @@ struct SearchBar: View {
     
     @FocusState var isEditing: Bool
     
-    var placeholder: String = "Search"
+    var placeholder: String = "Buscar"
     var onSearchTextChanged: ((String) -> Void)?
     var onSearchAction: (() -> Void)?
     var onCancel: (() -> Void)?

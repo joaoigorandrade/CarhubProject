@@ -17,7 +17,7 @@ struct ViewOffsetKey: PreferenceKey {
 struct RefreshableScrollView<Content: View>: View {
     @State private var isCurrentlyRefreshing = false
     @State private var isScrolled: Bool = false
-    private let amountToPullBeforeRefreshing: CGFloat = -350
+    private let amountToPullBeforeRefreshing: CGFloat = -360
 
     private var content: () -> Content
     private var onRefresh: () async -> Void
@@ -50,8 +50,8 @@ struct RefreshableScrollView<Content: View>: View {
         .onPreferenceChange(ViewOffsetKey.self) { scrollPosition in
             if scrollPosition < amountToPullBeforeRefreshing {
                 if !isScrolled {
-                    isScrolled = true
                     withAnimation {
+                        isScrolled = true
                         isCurrentlyRefreshing = true
                     }
                     
@@ -65,7 +65,9 @@ struct RefreshableScrollView<Content: View>: View {
                     }
                 }
             } else if isScrolled {
-                isScrolled = false
+                withAnimation {
+                    isScrolled = false
+                }
             }
         }
     }

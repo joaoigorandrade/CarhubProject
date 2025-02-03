@@ -9,11 +9,9 @@ import Combine
 import SwiftUI
 
 class DriverSearchScreenViewModel: ObservableObject {
-    let useCase: DriverSearchScreenUseCase = .init()
-    @Published var viewState: ScreenState = .loading
     
+    private let useCase: DriverSearchScreenUseCase = .init()
     private var cancellables: Set<AnyCancellable> = []
-    private var initialSearchTriggered = false
     
     init() {
         print("init \(type(of: self))")
@@ -22,8 +20,8 @@ class DriverSearchScreenViewModel: ObservableObject {
     deinit {
         print("de init \(type(of: self))")
     }
-
     
+    @Published var viewState: ScreenState = .loading
     @Published var searchText: String = ""
     @Published var nearMe: Bool = false
     @Published var filterOption: DriverFilterOptions = .distance
@@ -56,30 +54,20 @@ class DriverSearchScreenViewModel: ObservableObject {
     }
     
     @MainActor
-    func search() async {
+    func search(force: Bool = false) async {
+        switch viewState {
+        case .loading, .error: await execute()
+        default: if force { await execute() }
+        }
+    }
+    
+    @MainActor
+    private func execute() async {
         do {
-            viewState = .loading
             options = try await useCase.execute(with: .init(seachTerm: searchText, orderBy: filterOption))
             viewState = .loaded
         } catch let error {
             viewState = .error(error.localizedDescription)
-        }
-    }
-    
-    func triggerInitialSearch() {
-        guard !initialSearchTriggered else { return }
-        initialSearchTriggered = true
-    }
-    
-    @MainActor
-    func performInitialSearch() async {
-        if initialSearchTriggered {
-            do {
-                options = try await useCase.execute(with: .init(seachTerm: "", orderBy: filterOption))
-                viewState = .loaded
-            } catch let error {
-                viewState = .error(error.localizedDescription)
-            }
         }
     }
 }

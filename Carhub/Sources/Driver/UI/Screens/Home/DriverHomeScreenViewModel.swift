@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-class DriverHomeScreenViewModel: ObservableObject {
+class DriverHomeScreenViewModel: ScreenViewModel {
     
     private let useCase: DriverHomeScreenUseCase = .init()
-    private var didLoad: Bool = false
     
     init() {
         print("init \(type(of: self))")
@@ -20,22 +19,24 @@ class DriverHomeScreenViewModel: ObservableObject {
         print("de init \(type(of: self))")
     }
     
-    var canFetchJobs: Bool = true
-    
     @Published var tasks: [WorkshopTask] = []
-    @Published var state: ScreenState = .loading
+    @Published var viewState: ScreenState = .loading
     
     @MainActor
-    func fetchJobs(force: Bool? = nil) async {
-        if force ?? !didLoad {
-            do {
-                tasks = try await useCase.execute()
-                state = .loaded
-                didLoad = true
-            } catch let error {
-                state = .error(error.localizedDescription)
-                didLoad = false
-            }
+    func fetchJobs(force: Bool = false) async {
+        switch viewState {
+        case .loading,.error: await execute()
+        case .loaded: if force { await execute() }
+        }
+    }
+    
+    @MainActor
+    private func execute() async {
+        do {
+            tasks = try await useCase.execute()
+            viewState = .loaded
+        } catch let error {
+            viewState = .error(error.localizedDescription)
         }
     }
 }

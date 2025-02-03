@@ -6,10 +6,10 @@
 //
 
 enum DriverFilterOptions: String, Codable, CaseIterable {
-    case rating = "Most Positives"
-    case distance = "Distance"
-    case higherPrice = "Higher Price"
-    case lowerPrice = "Lower Price"
+    case distance = "Distancia"
+    case lowerPrice = "Menor Preço"
+    case higherPrice = "Maior Preço"
+    case rating = "Melhor Avaliado"
     
     var image: String {
         switch self {

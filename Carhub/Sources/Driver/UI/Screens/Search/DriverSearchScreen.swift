@@ -14,12 +14,10 @@ struct DriverSearchScreen: View {
     
     var body: some View {
         view
-            .onAppear {
-                viewModel.triggerInitialSearch()
-            }
             .task {
-                await viewModel.performInitialSearch()
+                await viewModel.search()
             }
+            .animation(.easeInOut, value: viewModel.viewState)
     }
     
     @ViewBuilder
@@ -61,7 +59,7 @@ struct DriverSearchScreen: View {
         RefreshableScrollView {
             cards
         } onRefresh: {
-            await viewModel.performInitialSearch()
+            await viewModel.search(force: true)
         }
     }
     
