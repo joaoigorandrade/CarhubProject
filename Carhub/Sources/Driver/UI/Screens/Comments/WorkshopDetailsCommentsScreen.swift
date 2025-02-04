@@ -9,12 +9,12 @@ import SwiftUI
 
 struct WorkshopDetailsCommentsScreen: View {
     
-    @ObservedObject var viewModel: WorkshopDetailsCommentsScreenViewModel
+    @StateObject var viewModel: WorkshopDetailsCommentsScreenViewModel
         
     var body: some View {
         view
             .task {
-                await viewModel.fetchComments()
+                await viewModel.fetch()
             }
     }
     

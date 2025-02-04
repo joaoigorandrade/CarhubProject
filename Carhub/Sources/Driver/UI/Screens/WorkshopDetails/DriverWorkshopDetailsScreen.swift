@@ -14,7 +14,7 @@ struct DriverWorkshopDetailsScreen: View {
     var body: some View {
         view
             .task {
-                await viewModel.fetchDWorkShopDetails()
+                await viewModel.fetch()
             }
             .navigationTitle(viewModel.workshop?.name ?? "")
             .navigationBarTitleDisplayMode(.large)
@@ -126,48 +126,59 @@ struct DriverWorkshopDetailsScreen: View {
     @ViewBuilder
     var currentView: some View {
         switch viewModel.tab {
-        case .details:
-            if let workshop = viewModel.workshop {
-                VStack(alignment: .leading ,spacing: 32) {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Detalhes da loja")
-                            .font(.headline)
-                            .bold()
-                        Text(workshop.description)
-                            .font(.subheadline)
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Horario de Hoje")
-                            .font(.headline)
-                            .bold()
-                        Text(workshop.todayOpeningHours)
-                            .font(.subheadline)
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text("Endereço")
-                            .font(.headline)
-                            .bold()
-                            .padding(.bottom, 12)
-                        Text(workshop.address.street)
-                            .font(.subheadline)
-                        Text(workshop.address.district)
-                            .font(.subheadline)
-                        Text("CEP: \(workshop.address.postalCode)")
-                            .font(.subheadline)
-                    }
-                }
-            }
-            
-        case .comments:
-            WorkshopDetailsCommentsScreen(viewModel: .init(id: viewModel.id))
-        case .calendar:
-            CalendarView(date: $viewModel.currentDate) { date in
-                router.navigate(to: .workshopSchedule(id: viewModel.id, date: viewModel.currentDate))
-            }
-            .padding(.vertical, 16)
+        case .details: details
+        case .comments: comments
+        case .calendar: calendar
         }
         
+    }
+    
+    @ViewBuilder
+    var details: some View {
+        if let workshop = viewModel.workshop {
+            VStack(alignment: .leading ,spacing: 32) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Detalhes da loja")
+                        .font(.headline)
+                        .bold()
+                    Text(workshop.description)
+                        .font(.subheadline)
+                }
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Horario de Hoje")
+                        .font(.headline)
+                        .bold()
+                    Text(workshop.todayOpeningHours)
+                        .font(.subheadline)
+                }
+                
+                VStack(alignment: .leading) {
+                    Text("Endereço")
+                        .font(.headline)
+                        .bold()
+                        .padding(.bottom, 12)
+                    Text(workshop.address.street)
+                        .font(.subheadline)
+                    Text(workshop.address.district)
+                        .font(.subheadline)
+                    Text("CEP: \(workshop.address.postalCode)")
+                        .font(.subheadline)
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var comments: some View {
+        WorkshopDetailsCommentsScreen(viewModel: viewModel.commentsViewModel)
+    }
+    
+    @ViewBuilder
+    var calendar: some View {
+        CalendarView(viewModel: viewModel.calendarViewModel) { date in
+            router.navigate(to: viewModel.getRoute())
+        }
+        .padding(.vertical, 16)
     }
 }

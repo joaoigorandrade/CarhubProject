@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class WorkshopDetailsCommentsScreenViewModel: ObservableObject {
+class WorkshopDetailsCommentsScreenViewModel: ScreenViewModel {
     
     let id: Int
     let useCase: WorkshopDetailsCommentsScreenUseCase = .init()
@@ -25,7 +25,15 @@ class WorkshopDetailsCommentsScreenViewModel: ObservableObject {
     }
         
     @MainActor
-    func fetchComments() async {
+    func fetch(force: Bool = false) async {
+        switch viewState {
+        case .loading, .error: await execute()
+        case .loaded: if force { await execute() }
+        }
+    }
+        
+    @MainActor
+    private func execute() async {
         do {
             comments = try await useCase.fetchComments(id: id)
             viewState = .loaded

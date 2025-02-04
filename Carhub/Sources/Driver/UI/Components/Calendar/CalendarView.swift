@@ -1,15 +1,13 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @StateObject private var viewModel: CalendarViewModel
+    @ObservedObject private var viewModel: CalendarViewModel
     @Namespace private var animation
     
     private let onSelectDate: (Date) -> Void
-    @Binding private var date: Date
     
-    init(date: Binding<Date>, onSelectDate: @escaping (Date) -> Void) {
-        self._viewModel = .init(wrappedValue: .init(currentDate: date.wrappedValue))
-        self._date = date
+    init(viewModel: CalendarViewModel, onSelectDate: @escaping (Date) -> Void) {
+        self.viewModel = viewModel
         self.onSelectDate = onSelectDate
     }
     
@@ -29,9 +27,6 @@ struct CalendarView: View {
         )
         .transition(.opacity)
         .animation(.easeInOut, value: viewModel.currentDate)
-        .onChange(of: viewModel.currentDate) { oldValue, newValue in
-            date = newValue
-        }
     }
     
     @ViewBuilder

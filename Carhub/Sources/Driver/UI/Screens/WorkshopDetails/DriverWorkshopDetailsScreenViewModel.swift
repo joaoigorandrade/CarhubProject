@@ -7,19 +7,23 @@
 
 import SwiftUI
 
-class DriverWorkshopDetailsScreenViewModel: ObservableObject {
-    let id: Int
-    let useCase: DriverWorkshopDetailsScreenUseCase = .init()
+class DriverWorkshopDetailsScreenViewModel: ScreenViewModel {
+    private let id: Int
+    private let useCase: DriverWorkshopDetailsScreenUseCase = .init()
     
     @Published var currentDate: Date = .now
-    @Published var viewState: ScreenState = .loading
     @Published var tab: WorkshopDetailsTabEnum = .details
     @Published var workshop: WorkshopDetailsModel? = nil
     
-    var comments: [WorkshopDetailsComment] = []
+    @Published var viewState: ScreenState = .loading
+    
+    @Published var commentsViewModel: WorkshopDetailsCommentsScreenViewModel
+    @Published var calendarViewModel: CalendarViewModel
     
     init(id: Int) {
         self.id = id
+        self.commentsViewModel = .init(id: id)
+        self.calendarViewModel = .init(currentDate: .now)
         print("init \(type(of: self))")
     }
     
@@ -27,8 +31,20 @@ class DriverWorkshopDetailsScreenViewModel: ObservableObject {
         print("de init \(type(of: self))")
     }
     
+    func getRoute() -> DriverScreenDestination {
+        .workshopSchedule(id: id, date: currentDate)
+    }
+    
     @MainActor
-    func fetchDWorkShopDetails() async {
+    func fetch(force: Bool = false) async {
+        switch viewState {
+        case .loading, .error: await execute()
+        case .loaded: if force { await execute() }
+        }
+    }
+    
+    @MainActor
+    private func execute() async {
         do {
             workshop = try await useCase.fetch(id: id)
             viewState = .loaded
@@ -38,16 +54,4 @@ class DriverWorkshopDetailsScreenViewModel: ObservableObject {
     }
 }
 
-enum WorkshopDetailsTabEnum: String, Hashable, CaseIterable {
-    case details = "Detalhes"
-    case comments = "Comentários"
-    case calendar = "Agendar"
-}
 
-struct WorkshopDetailsComment: Codable, Identifiable, Hashable {
-    var id: Int
-    var text: String
-    var author: String
-    var date: String
-    var rating: WorkshopRateType
-}
