@@ -8,11 +8,19 @@
 import Foundation
 import SwiftUI
 
+// MARK: - CalendarViewModel
+
 class CalendarViewModel: ObservableObject {
-    @Published var currentDate: Date
+    @Published var currentDate: Date {
+        didSet {
+            updateDaysForMonth()
+        }
+    }
+    @Published var days: [CalendarDay] = []
     
     init(currentDate: Date) {
         self.currentDate = currentDate
+        updateDaysForMonth()
         print("init \(type(of: self))")
     }
     
@@ -27,28 +35,33 @@ class CalendarViewModel: ObservableObject {
     }
     
     var currentMonthYear: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
-        return formatter.string(from: currentDate)
+        DateFormatter.monthYear.string(from: currentDate)
     }
     
-    func daysInMonth() -> [CalendarDay] {
+    private func updateDaysForMonth() {
+
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: currentDate))!
         let range = calendar.range(of: .day, in: .month, for: startOfMonth)!
         
         let firstWeekday = calendar.component(.weekday, from: startOfMonth)
-        let prefixDays = Array(repeating: CalendarDay(date: nil, isPlaceholder: true), count: firstWeekday - 1)
+        let prefixDays = (0..<(firstWeekday - 1)).map { index in
+            CalendarDay(date: nil, isPlaceholder: true, stableId: "placeholder-\(index)")
+        }
         
-        let days = range.compactMap { day -> CalendarDay in
+        let monthDays = range.map { day -> CalendarDay in
             let date = calendar.date(byAdding: .day, value: day - 1, to: startOfMonth)!
             return CalendarDay(date: date, isPlaceholder: false)
         }
         
-        return prefixDays + days
+        DispatchQueue.main.async {
+            self.days = prefixDays + monthDays
+        }
     }
     
     func navigateMonth(by value: Int) {
-        currentDate = calendar.date(byAdding: .month, value: value, to: currentDate) ?? currentDate
+        if let newDate = calendar.date(byAdding: .month, value: value, to: currentDate) {
+            currentDate = newDate
+        }
     }
     
     var currentWeekRange: String {
@@ -65,11 +78,10 @@ class CalendarViewModel: ObservableObject {
         guard let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: currentDate)?.start else {
             return []
         }
-        let days = (0..<7).map { offset in
+        return (0..<7).map { offset in
             let date = calendar.date(byAdding: .day, value: offset, to: startOfWeek)!
             return CalendarDay(date: date, isPlaceholder: false)
         }
-        return days
     }
     
     func navigateWeek(by value: Int) {

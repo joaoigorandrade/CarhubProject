@@ -97,24 +97,14 @@ struct DriverWorkshopDetailsScreen: View {
     var rating: some View {
         if let workshop = viewModel.workshop {
             HStack {
-                VStack {
-                    Image(systemName: "hand.thumbsup.fill")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                        .foregroundStyle(Color.green.opacity(0.6))
-                }
+                Text("😀")
                 LinearProgressView(model: .init(firstValue: workshop.positives,
                                                 secondValue: workshop.negatives,
-                                                firstColor: .green.opacity(0.6),
-                                                secondColor: .red.opacity(0.6)),
+                                                firstColor: .green,
+                                                secondColor: .red),
                                    shape: .capsule)
                 .frame(height: 8)
-                VStack {
-                    Image(systemName: "hand.thumbsdown.fill")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                        .foregroundStyle(Color.red.opacity(0.6))
-                }
+                Text("😡")
             }
             .padding(16)
         }
@@ -208,7 +198,7 @@ struct DriverWorkshopDetailsScreen: View {
     @ViewBuilder
     var calendar: some View {
         CalendarView(viewModel: viewModel.calendarViewModel) { date in
-            router.navigate(to: viewModel.getRoute())
+            router.navigate(to: viewModel.getRoute(with: date))
         }
         .padding(.vertical, 16)
     }

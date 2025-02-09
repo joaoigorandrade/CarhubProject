@@ -31,8 +31,8 @@ class DriverWorkshopDetailsScreenViewModel: ScreenViewModel {
         print("de init \(type(of: self))")
     }
     
-    func getRoute() -> DriverScreenDestination {
-        .workshopSchedule(id: id, date: currentDate)
+    func getRoute(with date: Date) -> DriverScreenDestination {
+        .workshopSchedule(id: id, date: date)
     }
     
     @MainActor

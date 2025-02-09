@@ -8,15 +8,30 @@
 import Foundation
 
 struct CalendarDay: Identifiable {
-    var id: String { date?.description ?? UUID().uuidString }
     let date: Date?
     let isPlaceholder: Bool
+    let stableId: String
+
+    var id: String { stableId }
+
+    init(date: Date?, isPlaceholder: Bool, stableId: String? = nil) {
+        self.date = date
+        self.isPlaceholder = isPlaceholder
+        if let id = stableId {
+            self.stableId = id
+        } else if let date = date {
+            self.stableId = date.description
+        } else {
+            self.stableId = "placeholder-\(UUID().uuidString)"
+        }
+    }
     
     var isToday: Bool {
         guard let date = date else { return false }
         return Calendar.current.isDateInToday(date)
     }
 }
+
 enum CalendarDayOfWeek: String, CaseIterable {
     case sunday = "Domingo"
     case monday = "Segunda-feira"

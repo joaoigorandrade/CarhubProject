@@ -1,4 +1,6 @@
+
 import SwiftUI
+import Foundation
 
 struct CalendarView: View {
     @ObservedObject private var viewModel: CalendarViewModel
@@ -10,7 +12,6 @@ struct CalendarView: View {
         self.viewModel = viewModel
         self.onSelectDate = onSelectDate
     }
-    
     
     var body: some View {
         VStack(spacing: 0) {
@@ -67,7 +68,7 @@ struct CalendarView: View {
     @ViewBuilder
     var days: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 10) {
-            ForEach(viewModel.daysInMonth()) { calendarDay in
+            ForEach(viewModel.days) { calendarDay in
                 if let date = calendarDay.date {
                     let isToday = calendarDay.isToday
                     Text("\(Calendar.current.component(.day, from: date))")
