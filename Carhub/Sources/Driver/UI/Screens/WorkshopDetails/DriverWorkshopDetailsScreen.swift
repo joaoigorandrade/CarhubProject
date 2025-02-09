@@ -9,16 +9,31 @@ import SwiftUI
 
 struct DriverWorkshopDetailsScreen: View {
     @EnvironmentObject private var router: DriverScreenRouter
+    @EnvironmentObject private var locationManager: LocationManager
+    
     @StateObject var viewModel: DriverWorkshopDetailsScreenViewModel
-        
+    
     var body: some View {
         view
             .task {
                 await viewModel.fetch()
             }
-            .navigationTitle(viewModel.workshop?.name ?? "")
-            .navigationBarTitleDisplayMode(.large)
-            .padding(.horizontal, 24)
+            .ignoresSafeArea(.all, edges: .top)
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button {
+                        withAnimation {
+                            router.pop()
+                        }
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24, height: 24)
+                    }
+                }
+            }
     }
     
     @ViewBuilder
@@ -32,62 +47,28 @@ struct DriverWorkshopDetailsScreen: View {
     
     @ViewBuilder
     var content: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            headerView
-            services
-            pickerView
-            currentView
-            Spacer(minLength: 0)
+        ScrollView {
+            ZStack {
+                VStack {
+                    headerView
+                    Spacer()
+                }
+                VStack(alignment: .leading, spacing: 0) {
+                    services
+                    rating
+                    pickerView
+                    currentView
+                }.offset(y: 250)
+            }
         }
     }
     
     @ViewBuilder
     var headerView: some View {
         if let workshop = viewModel.workshop {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack {
-                        Text("Distância: ").font(.subheadline).bold() + Text(String(format: "%.2f km", workshop.distance)).font(.body)
-                    Spacer()
-                    AsyncImage(url: .init(string: workshop.photoURL)) { image in
-                        image
-                            .resizable()
-                            .frame(width: 64, height: 64)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width: 64, height: 64)
-                    }
-                }
-                HStack {
-                    VStack {
-                        Image(systemName: "hand.thumbsup.fill")
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                            .foregroundStyle(Color.green.opacity(0.6))
-                        Text("\(workshop.positives)")
-                            .font(.caption)
-                            .padding(4)
-                    }
-                    VStack {
-                        Image(systemName: "hand.thumbsdown.fill")
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                            .foregroundStyle(Color.red.opacity(0.6))
-                        Text("\(workshop.negatives)")
-                            .font(.caption)
-                            .padding(4)
-                    }
-                    Spacer(minLength: 0)
-                    VStack {
-                        Image(systemName: "bubble.left.fill")
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                        Text("\(workshop.comments)")
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .padding(16)
-            }
+            StretchyImage(imageURL: .init(string: workshop.photoURL))
+                .frame(height: 300)
+                .clipped()
         }
     }
     
@@ -113,10 +94,45 @@ struct DriverWorkshopDetailsScreen: View {
     }
     
     @ViewBuilder
+    var rating: some View {
+        if let workshop = viewModel.workshop {
+            HStack {
+                VStack {
+                    Image(systemName: "hand.thumbsup.fill")
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                        .foregroundStyle(Color.green.opacity(0.6))
+                }
+                LinearProgressView(model: .init(firstValue: workshop.positives,
+                                                secondValue: workshop.negatives,
+                                                firstColor: .green.opacity(0.6),
+                                                secondColor: .red.opacity(0.6)),
+                                   shape: .capsule)
+                .frame(height: 8)
+                VStack {
+                    Image(systemName: "hand.thumbsdown.fill")
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                        .foregroundStyle(Color.red.opacity(0.6))
+                }
+            }
+            .padding(16)
+        }
+    }
+    
+    @ViewBuilder
+    var workshopTitle: some View {
+        Text("\(viewModel.workshop?.name ?? "")")
+            .font(.title)
+            .foregroundColor(.black)
+            .bold()
+    }
+    
+    @ViewBuilder
     var pickerView: some View {
         Picker("", selection: $viewModel.tab) {
             ForEach(WorkshopDetailsTabEnum.allCases, id: \.self) { tab in
-                Text(tab.rawValue).tag(tab)
+                tab.image
             }
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -125,20 +141,22 @@ struct DriverWorkshopDetailsScreen: View {
     
     @ViewBuilder
     var currentView: some View {
-        switch viewModel.tab {
-        case .details: details
-        case .comments: comments
-        case .calendar: calendar
-        }
-        
+        Group {
+            switch viewModel.tab {
+            case .details: details
+            case .comments: comments
+            case .calendar: calendar
+            }
+        }.padding(24)
     }
     
     @ViewBuilder
     var details: some View {
         if let workshop = viewModel.workshop {
             VStack(alignment: .leading ,spacing: 32) {
+                workshopTitle
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Detalhes da loja")
+                    Text("Detalhes da loja:")
                         .font(.headline)
                         .bold()
                     Text(workshop.description)
@@ -146,7 +164,7 @@ struct DriverWorkshopDetailsScreen: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Horario de Hoje")
+                    Text("Horario de Hoje:")
                         .font(.headline)
                         .bold()
                     Text(workshop.todayOpeningHours)
@@ -154,16 +172,29 @@ struct DriverWorkshopDetailsScreen: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Text("Endereço")
+                    Text("Endereço:")
                         .font(.headline)
                         .bold()
                         .padding(.bottom, 12)
-                    Text(workshop.address.street)
-                        .font(.subheadline)
-                    Text(workshop.address.district)
-                        .font(.subheadline)
-                    Text("CEP: \(workshop.address.postalCode)")
-                        .font(.subheadline)
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(workshop.address.street)
+                                .font(.subheadline)
+                            Text(workshop.address.district)
+                                .font(.subheadline)
+                            Text("CEP: \(workshop.address.postalCode)")
+                                .font(.subheadline)
+                        }
+                        Spacer(minLength: 24)
+                        
+                        Button {
+                            locationManager.openMapsForDirections(destination: .init(latitude: .zero, longitude: .zero))
+                        } label: {
+                            Image(systemName: "map.fill")
+                                .tint(Color.primary)
+                                .padding(24)
+                        }
+                    }
                 }
             }
         }
@@ -181,4 +212,8 @@ struct DriverWorkshopDetailsScreen: View {
         }
         .padding(.vertical, 16)
     }
+}
+
+#Preview {
+    DriverWorkshopDetailsScreen(viewModel: .init(id: 2))
 }

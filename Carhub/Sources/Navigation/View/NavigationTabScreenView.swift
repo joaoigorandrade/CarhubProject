@@ -10,9 +10,11 @@ import SwiftUI
 struct NavigationTabScreenView<Tab: NavigationTabBarProtocol, Router: NavigationRouter>: View where Router.NavigationTab == Tab {
     @State private var tabSelected: Tab = Tab.initialSelection
     @ObservedObject var router: Router
+    @ObservedObject var location: LocationManager
     
-    init(router: Router) {
+    init(router: Router, location: LocationManager) {
         self.router = router
+        self.location = location
         self.router.currentTab = Tab.initialSelection
     }
     
@@ -32,5 +34,6 @@ struct NavigationTabScreenView<Tab: NavigationTabBarProtocol, Router: Navigation
             router.currentTab = newTab
         }
         .environmentObject(router)
+        .environmentObject(location)
     }
 }

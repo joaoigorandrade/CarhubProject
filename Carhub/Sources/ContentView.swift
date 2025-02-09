@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var router = DriverScreenRouter()
+    @StateObject private var locationManager = LocationManager()
     
     var body: some View {
-        NavigationTabScreenView<DriverTab, DriverScreenRouter>(router: router)
+        NavigationTabScreenView<DriverTab, DriverScreenRouter>(router: router,
+                                                               location: locationManager)
     }
 }
 
