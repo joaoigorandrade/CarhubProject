@@ -15,7 +15,7 @@ enum DriverScreenDestination: NavigationDestination {
     // MARK: Search
     case workshopSearch
     case workshopDetails(id: Int)
-    case workshopSchedule(id: Int, date: Date)
+    case workshopSchedule(workshop: WorkshopDetailsModel, date: Date)
     
     // MARK: Profile
     case profile
@@ -26,7 +26,7 @@ enum DriverScreenDestination: NavigationDestination {
         switch self {
         case .rateTask(let id): DriverRateTaskScreen(viewModel: DriverRateTaskScreenViewModel(id: id))
         case .workshopDetails(let id): DriverWorkshopDetailsScreen(viewModel: DriverWorkshopDetailsScreenViewModel(id: id))
-        case .workshopSchedule(let id, let date): WorkshopScheduleScreen(viewModel: WorkshopScheduleScreenViewModel(currentDate: date, id: id))
+        case .workshopSchedule(let workshop, let date): WorkshopScheduleScreen(viewModel: WorkshopScheduleScreenViewModel(currentDate: date, workshop: workshop))
         case .home: DriverHomeScreen()
         case .workshopSearch: DriverSearchScreen()
         case .profile: EmptyView()

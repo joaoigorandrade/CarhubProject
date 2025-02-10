@@ -15,6 +15,7 @@ enum DriverApiRequest: APIRequest {
     case getWorkshop(id: Int)
     case getWorkshopComments(id: Int)
     case postSchedule(model: WorkshopScheduleRequest)
+    case getSchedule(model: WorkshopScheduleAvailableTimesRequest)
     case getRateScreen(id: Int)
     
     var baseURL: URL {
@@ -30,13 +31,14 @@ enum DriverApiRequest: APIRequest {
         case .getWorkshop: "/workshop"
         case .getWorkshopComments: "/comments"
         case .postSchedule: "/schedule"
+        case .getSchedule: "/schedule/available-times"
         case .getRateScreen: "/rate"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .getHomePage, .getWorkshop, .getWorkshopComments, .getRateScreen: .get
+        case .getHomePage, .getWorkshop, .getWorkshopComments, .getRateScreen, .getSchedule: .get
         case .postPositiveRate, .postSearchOptions,.postSchedule: .post
         }
     }
@@ -53,13 +55,14 @@ enum DriverApiRequest: APIRequest {
         case .getWorkshop(let id): ["id": id]
         case .getWorkshopComments(let id): ["id": id]
         case .postSchedule: nil
+        case .getSchedule(let model): ["id": model.id, "date": model.date]
         case .getRateScreen(let id): ["id": id]
         }
     }
     
     var bodyParameters: [String : Any]? {
         switch self {
-        case .getHomePage, .getWorkshop, .getWorkshopComments, .getRateScreen: nil
+        case .getHomePage, .getWorkshop, .getWorkshopComments, .getRateScreen, .getSchedule: nil
         case .postPositiveRate(id: let id): ["id": id, "type": "positive"]
         case .postSearchOptions(let model): model.toDictionary()
         case .postSchedule(let model): model.toDictionary()

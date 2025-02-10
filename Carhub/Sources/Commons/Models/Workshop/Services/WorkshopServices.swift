@@ -29,7 +29,7 @@ enum WorkshopService: String, Codable, CaseIterable {
     case hybridSystemMaintenance = "Manutenção do Sistema Híbrido"
     case emissionsTesting = "Teste de Emissões"
     case generalInspection = "Inspeção Geral"
-
+    
     var image: String {
         switch self {
         case .oilChange: return "oilcan.fill"
@@ -55,6 +55,23 @@ enum WorkshopService: String, Codable, CaseIterable {
         case .hybridSystemMaintenance: return "leaf.fill"
         case .emissionsTesting: return "aqi.high"
         case .generalInspection: return "doc.text.magnifyingglass"
+        }
+    }
+    
+    var category: WorkshopServiceCategory {
+        switch self {
+        case .oilChange, .tireRotation, .cabinAirFilterReplacement, .coolantFlush, .hybridSystemMaintenance:
+            return .maintenance
+        case .brakeInspection, .generalInspection, .prePurchaseInspection, .emissionsTesting:
+            return .inspection
+        case .wheelAlignment, .batteryReplacement, .engineDiagnostics, .airConditioningService, .transmissionRepair, .exhaustRepair, .suspensionRepair, .glassRepair, .electricalSystemRepair:
+            return .repair
+        case .detailingService, .carWash, .headlightRestoration:
+            return .cleaning
+        case .windshieldReplacement:
+            return .personalization
+        case .emergencyTowing:
+            return .emergency
         }
     }
 }

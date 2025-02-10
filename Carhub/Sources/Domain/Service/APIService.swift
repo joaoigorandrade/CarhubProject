@@ -34,11 +34,11 @@ public final class APIClient<Request: APIRequest> {
         }
         
         do {
-            print(urlSession)
             let (data, response) = try await urlSession.data(for: urlRequest)
             let decodedResponse = try APIResponseHandler.parseResponse(data, response, as: T.self)
             return decodedResponse
         } catch let error as APIError {
+            print(error)
             throw error
         } catch {
             throw APIError.networkError(error)

@@ -174,6 +174,58 @@ app.post('/schedule', (req, res) => {
     }
 });
 
+// GET /schedule/available-times
+app.get('/schedule/available-times', (req, res) => {
+    const { id, date } = req.query;
+
+    // Validate input
+    if (!id) {
+        return res.status(400).send({ message: 'Query parameter "id" is required' });
+    }
+    if (!date || isNaN(Date.parse(date))) {
+        return res.status(400).send({ message: 'Valid date is required' });
+    }
+
+    // Parse the provided date
+    const baseDate = new Date(date);
+    
+    // Generate available times for each weekday (0 = Sunday, 6 = Saturday)
+    const availableTimes = [];
+
+    for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+        // Calculate the date for the given day
+        const dayDate = new Date(baseDate);
+        dayDate.setDate(baseDate.getDate() + dayOffset);
+        const dayNumber = dayDate.getDay(); // Get the weekday number (0 - 6)
+
+        // Generate random available time slots in 24-hour format (e.g., ["08:00", "14:30"])
+        const times = generateAvailableTimes();
+        availableTimes.push(
+            {
+                date: dayDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
+                times: times
+            }
+        )
+    }
+
+    res.status(200).send(availableTimes);
+});
+
+// Function to generate random available times in 24-hour format
+function generateAvailableTimes() {
+    const timeSlots = [];
+    const numSlots = Math.floor(Math.random() * 5) + 3; // Random 3 to 7 time slots
+
+    for (let i = 0; i < numSlots; i++) {
+        const hour = Math.floor(Math.random() * 10) + 8; // Between 8 AM and 6 PM
+        const minutes = Math.random() > 0.5 ? '00' : '30'; // Either :00 or :30
+        timeSlots.push(`${String(hour).padStart(2, '0')}:${minutes}`);
+    }
+
+    return timeSlots.sort(); // Return sorted times
+}
+
+
 // GET /rate
 app.get('/rate', (req, res) => {
     const { id } = req.query;

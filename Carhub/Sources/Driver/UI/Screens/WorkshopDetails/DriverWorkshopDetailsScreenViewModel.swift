@@ -32,7 +32,8 @@ class DriverWorkshopDetailsScreenViewModel: ScreenViewModel {
     }
     
     func getRoute(with date: Date) -> DriverScreenDestination {
-        .workshopSchedule(id: id, date: date)
+        guard let workshop else { fatalError() }
+        return .workshopSchedule(workshop: workshop, date: date)
     }
     
     @MainActor
