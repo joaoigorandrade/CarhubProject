@@ -5,6 +5,7 @@
 //  Created by Joao Igor de Andrade Oliveira on 28/12/24.
 //
 
+import Navigation
 import SwiftUI
 
 struct ContentView: View {
@@ -12,8 +13,7 @@ struct ContentView: View {
     @StateObject private var locationManager = LocationManager()
     
     var body: some View {
-        NavigationTabScreenView<DriverTab, DriverScreenRouter>(router: router,
-                                                               location: locationManager)
+        NavigationTabScreenView<DriverTab, DriverScreenRouter>(router: router)
     }
 }
 

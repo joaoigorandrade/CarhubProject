@@ -5,6 +5,7 @@
 //  Created by Joao Igor de Andrade Oliveira on 11/01/25.
 //
 
+import Navigation
 import SwiftUI
 
 struct WorkshopScheduleScreen: View {

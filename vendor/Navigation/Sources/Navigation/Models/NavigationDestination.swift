@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-protocol NavigationDestination: Hashable, Identifiable {
+public protocol NavigationDestination: Hashable, Identifiable {
     associatedtype Content: View
     var view: Content { get }
     var id: Self { get }

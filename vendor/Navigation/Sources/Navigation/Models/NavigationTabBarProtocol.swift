@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol NavigationTabBarProtocol: Hashable, CaseIterable, Identifiable {
+public protocol NavigationTabBarProtocol: Hashable, CaseIterable, Identifiable {
     
     associatedtype Body: View
     

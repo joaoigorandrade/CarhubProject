@@ -5,6 +5,7 @@
 //  Created by Joao Igor de Andrade Oliveira on 02/02/25.
 //
 
+import Navigation
 import SwiftUI
 
 enum DriverTab: NavigationTabBarProtocol {

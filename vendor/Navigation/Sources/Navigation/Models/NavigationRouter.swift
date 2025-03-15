@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-protocol NavigationRouter: ObservableObject {
+public protocol NavigationRouter: ObservableObject {
     associatedtype SelfDestination: NavigationDestination
     associatedtype NavigationTab: NavigationTabBarProtocol
     var state: [NavigationTab: NavigationState<SelfDestination>] { get set }

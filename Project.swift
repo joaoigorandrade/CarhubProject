@@ -2,6 +2,9 @@ import ProjectDescription
 
 let project = Project(
     name: "Carhub",
+    packages: [
+        .local(path: "vendor/Navigation")
+    ],
     targets: [
         .target(
             name: "Carhub",
@@ -18,7 +21,9 @@ let project = Project(
             ),
             sources: ["Carhub/Sources/**"],
             resources: ["Carhub/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .package(product: "Navigation")
+            ]
         )
     ]
 )

@@ -7,18 +7,16 @@
 
 import SwiftUI
 
-struct NavigationTabScreenView<Tab: NavigationTabBarProtocol, Router: NavigationRouter>: View where Router.NavigationTab == Tab {
+public struct NavigationTabScreenView<Tab: NavigationTabBarProtocol, Router: NavigationRouter>: View where Router.NavigationTab == Tab {
     @State private var tabSelected: Tab = Tab.initialSelection
-    @ObservedObject var router: Router
-    @ObservedObject var location: LocationManager
+    @ObservedObject private var router: Router
     
-    init(router: Router, location: LocationManager) {
+    public init(router: Router) {
         self.router = router
-        self.location = location
         self.router.currentTab = Tab.initialSelection
     }
     
-    var body: some View {
+    public var body: some View {
         TabView(selection: $tabSelected) {
             ForEach(Tab.allCases) { tab in
                 NavigationMainScreenView(router: router, tab: tab) {
@@ -34,6 +32,5 @@ struct NavigationTabScreenView<Tab: NavigationTabBarProtocol, Router: Navigation
             router.currentTab = newTab
         }
         .environmentObject(router)
-        .environmentObject(location)
     }
 }
