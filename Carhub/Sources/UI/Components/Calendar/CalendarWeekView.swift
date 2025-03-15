@@ -74,7 +74,9 @@ struct CalendarWeekView: View {
                         )
                         .scaleEffect(isToday ? 1.2 : 1.0)
                         .onTapGesture {
-                            viewModel.currentDate = date
+                            if !isPastDay {
+                                viewModel.currentDate = date
+                            }
                         }
                         .animation(.easeInOut, value: isToday)
                 } else {

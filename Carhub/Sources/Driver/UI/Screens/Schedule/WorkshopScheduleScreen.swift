@@ -165,7 +165,7 @@ struct WorkshopScheduleScreen: View {
                 }
                 .safeAreaPadding(.bottom, 24)
         }
-        .disabled(viewModel.service.isEmpty)
+        .disabled(viewModel.service.isEmpty || viewModel.selectedTime.isEmpty)
     }
     
     @ViewBuilder
